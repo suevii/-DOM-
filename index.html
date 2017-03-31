@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>事件流</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<input type="button" value="按钮" id="btn1">
+		<script type="text/javascript">
+			var btn1=document.getElementById('btn1');
+			function showMes(){
+				alert('hello world!');
+			}
+			// btn1.addEventListener('click', function(){
+			// 	alert('点了');
+			// }, false);
+			// btn1.onclick=function(){
+			// 	alert('再点');
+			var eventUtil={
+				//添加句柄
+				addHandler:function(element,type,handler){
+					if(element.addEventListener){	//DOM2级
+						element.addEventListener(type,handler,false);
+					}else if(element.attachEvent){	//IE事件处理
+						element.attachEvent('on'+type,handler);
+					}else{							//DOM0级
+						element['on'+type]=handler;
+						//===element.onclick()
+					}
+				},
+				//删除句柄
+				removeHandler:function(element,type,handler){
+					if(element.removeEventListener){	//DOM2级
+						element.removeEventListener(type,handler,false);
+					}else if(element.detachEvent){	//IE事件处理
+						element.detachEvent('on'+type,handler);
+					}else{							//DOM0级
+						element['on'+type]=null;
+						//===element.onclick()
+					}
+				}
+			}
+			eventUtil.addHandler(btn1,'click',showMes);
+		</script>
+	</body>
+</html>
